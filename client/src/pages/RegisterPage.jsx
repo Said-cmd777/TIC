@@ -144,6 +144,7 @@ const RegisterPage = () => {
               <option value="B1">B1</option>
               <option value="B2">B2</option>
               <option value="B3">B3</option>
+              <option value="B4">B4</option>
             </select>
           </div>
           <button

@@ -1,3 +1,3 @@
 export const GLOBALS = {
-  SERVER: "https://tic-wzgu.onrender.com",
+  SERVER: import.meta.env?.VITE_API_URL || "https://tic-wzgu.onrender.com",
 };

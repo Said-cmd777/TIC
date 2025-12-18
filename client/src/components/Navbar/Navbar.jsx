@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaNetworkWired } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,33 +17,35 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-500 text-white">
+    <nav className="bg-gradient-to-r from-sky-800 via-cyan-700 to-teal-700 text-white shadow">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold">
-          TIC DS
+        {/* Brand */}
+        <Link to="/" className="flex items-center space-x-2">
+          <FaNetworkWired className="text-teal-200" size={24} />
+          <span className="text-xl md:text-2xl font-bold tracking-wide">
+            TIC Data Science Portal
+          </span>
         </Link>
 
         {/* Links */}
-        <div className="space-x-6">
-          <Link to="/" className="hover:text-blue-200 transition">
+        <div className="flex items-center gap-4">
+          <Link
+            to="/"
+            className="px-3 py-1 rounded hover:bg-white/10 transition"
+          >
             Home
           </Link>
           {token && (
             <>
-              {!uploaded ? (
-                <Link to="/upload" className="hover:text-blue-200 transition">
-                  Upload
-                </Link>
-              ) : (
-                <Link to="/upload" className="hover:text-blue-200 transition">
-                  ReUpload
-                </Link>
-              )}
-
+              <Link
+                to="/upload"
+                className="px-3 py-1 rounded hover:bg-white/10 transition"
+              >
+                {uploaded ? "Reupload" : "Upload"}
+              </Link>
               <button
                 onClick={handleLogout}
-                className="hover:text-blue-200 transition"
+                className="px-3 py-1 rounded hover:bg-white/10 transition"
               >
                 Logout
               </button>
@@ -50,11 +53,17 @@ const Navbar = () => {
           )}
           {!token && (
             <>
-              <Link to="/login" className="hover:text-blue-200 transition">
+              <Link
+                to="/login"
+                className="px-3 py-1 rounded hover:bg-white/10 transition"
+              >
                 Login
               </Link>
-              <Link to="/register" className="hover:text-blue-200 transition">
-                register
+              <Link
+                to="/register"
+                className="px-3 py-1 rounded hover:bg-white/10 transition"
+              >
+                Register
               </Link>
             </>
           )}
