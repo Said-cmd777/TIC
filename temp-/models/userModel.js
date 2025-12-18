@@ -9,11 +9,10 @@ const userSchema = new mongoose.Schema({
   group: {
     type: String,
     required: true,
-    enum: ["B1", "B2", "B3", "A1", "A2", "A3"],
+    enum: ["B1", "B2", "B3", "B4"],
   },
-  uploadedFilePath: { type: String }, // مسار الملف المرفوع
-  externalFileUrl1: { type: String }, // الرابط الخارجي الأول
-  externalFileUrl2: { type: String }, // الرابط الخارجي الثاني
+  powerPointUrl: { type: String }, // PowerPoint file URL
+  wordDocumentUrl: { type: String }, // Word document URL
 });
 
 // Hash password before saving

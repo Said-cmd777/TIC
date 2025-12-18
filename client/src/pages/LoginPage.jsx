@@ -18,7 +18,7 @@ const LoginPage = () => {
       });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user || {}));
-      response.data.user.uploadedFilePath ? navigate("/") : navigate("/upload");
+      response.data.user.powerPointUrl ? navigate("/") : navigate("/upload");
     } catch (error) {
       setErrorMessage("Invalid credentials! Please try again.");
     }

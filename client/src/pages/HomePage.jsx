@@ -51,7 +51,7 @@ const UsersList = () => {
 
       {/* Group Buttons */}
       <div className="flex justify-center mb-6 space-x-4">
-        {["", "B1", "B2", "B3"].map((grp) => (
+        {["", "B1", "B2", "B3", "B4"].map((grp) => (
           <button
             key={grp}
             onClick={() => {

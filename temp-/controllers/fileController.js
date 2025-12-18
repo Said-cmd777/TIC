@@ -5,7 +5,7 @@ const fs = require("fs");
 exports.uploadFileWithUrls = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming `isAuthenticated` middleware sets `req.user`
-    const { fileUrl, externalFileUrl1, externalFileUrl2 } = req.body;
+    const { powerPointUrl, wordDocumentUrl } = req.body;
     console.log("fileeee", req.file);
     // Validate user ID
     if (!userId) {
@@ -18,43 +18,16 @@ exports.uploadFileWithUrls = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Delete previous file if it exists
-    if (user.uploadedFilePath && !fileUrl) {
-      const previousFilePath = path.join(
-        __dirname,
-        "..",
-        "uploads/",
-        user.uploadedFilePath
-      );
-
-      if (fs.existsSync(previousFilePath)) {
-        fs.unlinkSync(previousFilePath);
-        console.log("Previous file deleted:", previousFilePath);
-      }
-    }
-
-    // Determine what to save for uploadedFilePath
-    if (req.file) {
-      // If a file is uploaded, save its path
-      user.uploadedFilePath = req.file.filename;
-    } else if (fileUrl && fileUrl.startsWith("http")) {
-      // If no file is uploaded but a valid URL is provided, save the URL
-      user.uploadedFilePath = fileUrl;
-    } else {
-      return res.status(400).json({ message: "No valid file or URL provided" });
-    }
-
-    // Update other external links
-    user.externalFileUrl1 = externalFileUrl1 || null;
-    user.externalFileUrl2 = externalFileUrl2 || null;
+    // Update PowerPoint and Word document URLs
+    user.powerPointUrl = powerPointUrl || user.powerPointUrl || null;
+    user.wordDocumentUrl = wordDocumentUrl || user.wordDocumentUrl || null;
 
     await user.save();
 
     res.status(200).json({
-      message: "File or URL saved successfully",
-      uploadedFilePath: user.uploadedFilePath,
-      externalFileUrl1: user.externalFileUrl1,
-      externalFileUrl2: user.externalFileUrl2,
+      message: "URLs saved successfully",
+      powerPointUrl: user.powerPointUrl,
+      wordDocumentUrl: user.wordDocumentUrl,
     });
   } catch (err) {
     console.error("Error updating file or URL:", err.message);

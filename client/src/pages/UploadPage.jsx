@@ -4,10 +4,8 @@ import { GLOBALS } from "../GLOBALS";
 import { useNavigate } from "react-router-dom";
 
 const UploadPage = () => {
-  const [fileUrl, setFileUrl] = useState(""); // New state for the video URL
-  const [imageFile, setImageFile] = useState(null); // New state for the image file
-  const [link1, setLink1] = useState("");
-  const [link2, setLink2] = useState("");
+  const [powerPointUrl, setPowerPointUrl] = useState("");
+  const [wordDocumentUrl, setWordDocumentUrl] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -24,19 +22,16 @@ const UploadPage = () => {
       setIsSubmitting(true); // Prevent further submissions
       setMessage(""); // Clear previous messages
 
-      const formData = new FormData();
-      formData.append("fileUrl", fileUrl); // Append video URL
-      if (imageFile) {
-        formData.append("file", imageFile); // Append image file if exists
-      }
-      formData.append("externalFileUrl1", link1);
-      formData.append("externalFileUrl2", link2);
+      const data = {
+        powerPointUrl,
+        wordDocumentUrl,
+      };
 
       // Send the data to the server
-      await axios.post(GLOBALS.SERVER + "/api/upload/uploadproject", formData, {
+      await axios.post(GLOBALS.SERVER + "/api/upload/uploadproject", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data", // Necessary for file uploads
+          "Content-Type": "application/json",
         },
       });
 
@@ -83,49 +78,17 @@ const UploadPage = () => {
           <div className="space-y-2">
             <label
               className="block text-gray-600 font-medium"
-              htmlFor="fileUrlInput"
-            >
-              Video Link
-            </label>
-            <input
-              id="fileUrlInput"
-              type="url"
-              placeholder="Enter the video link"
-              value={fileUrl}
-              onChange={(e) => setFileUrl(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              className="block text-gray-600 font-medium"
-              htmlFor="imageFileInput"
-            >
-              Upload Poster
-            </label>
-            <input
-              id="imageFileInput"
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImageFile(e.target.files[0])}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              className="block text-gray-600 font-medium"
               htmlFor="pptLink"
             >
-              PowerPoint File Link
+              PowerPoint File URL
             </label>
             <input
               id="pptLink"
               type="url"
-              placeholder="Enter the PowerPoint file link"
-              value={link1}
-              onChange={(e) => setLink1(e.target.value)}
+              placeholder="Enter the PowerPoint file URL"
+              value={powerPointUrl}
+              onChange={(e) => setPowerPointUrl(e.target.value)}
+              required
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -135,14 +98,15 @@ const UploadPage = () => {
               className="block text-gray-600 font-medium"
               htmlFor="wordLink"
             >
-              Word File Link
+              Word Document URL
             </label>
             <input
               id="wordLink"
               type="url"
-              placeholder="Enter the Word file link"
-              value={link2}
-              onChange={(e) => setLink2(e.target.value)}
+              placeholder="Enter the Word document URL"
+              value={wordDocumentUrl}
+              onChange={(e) => setWordDocumentUrl(e.target.value)}
+              required
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
